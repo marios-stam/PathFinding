@@ -1,27 +1,35 @@
 import random
 import time
 import pygame
-from colors import  colors
+from colors import colors
+from  nodeClasses.spareNode import spareNode
+from  nodeClasses.startNode import startNode
+from  nodeClasses.wallNode  import wallNode
+from  nodeClasses.goalNode  import goalNode
+
 
 WIN_LEN=500
 WIN_HEIGHT=500
 FPS=10
 
-ROWS=50
-COLS=50
+ROWS=20
+COLS=20
 SIDE_LENGTH=(WIN_LEN/ROWS)*0.9
 SPACING_LENGTH=(WIN_LEN/ROWS)*0.1
 
 # empty plane
-arr = [[0 for _ in range(ROWS)] for _ in range(COLS)]
+arr = [[ spareNode(i,j) for j in range(COLS)] for i in range(ROWS)]
+
 
 #generate walls
-for i in range(0,20):
-    arr[34-i][14+i]=3
+for i in range(0,10):
+    arr[15-i][5+i]=wallNode(15-i,5+i)
 
 #define start and finish pos
-arr[5][5]=1
-arr[40][40]=2
+arr[5][5]=startNode(5,5)
+arr[15][15]=goalNode(18,18)
+
+
 
 screen = pygame.display.set_mode((WIN_LEN, WIN_HEIGHT))
 
@@ -38,8 +46,7 @@ def draw_matrix(matrix):
     for r, row in enumerate(matrix):
         for c, cell in enumerate(row):
             if cell!=0:
-                color=colors.matchColor[cell]
-                
+                color=colors.matchColor(cell)
                 pygame.draw.rect(
                     screen, color, ((SIDE_LENGTH+SPACING_LENGTH)*c, (SIDE_LENGTH+SPACING_LENGTH)*r, SIDE_LENGTH, SIDE_LENGTH)
                 )
@@ -55,6 +62,7 @@ pygame.display.flip()
 # waits one second so we can see the initial state before
 # starting the interaction loop
 time.sleep(1)
+
 
 while True:
     # INPUT PROCESSING

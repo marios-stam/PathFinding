@@ -1,3 +1,8 @@
+from  nodeClasses.spareNode import spareNode
+from  nodeClasses.startNode import startNode
+from  nodeClasses.wallNode  import wallNode
+from  nodeClasses.goalNode  import goalNode
+
 class colors:
     
     black=(0,0,0)
@@ -6,9 +11,22 @@ class colors:
     green=(0,255,0)
     blue=(0,0,255)
 
-    matchColor={ 1:green,#Start
-                 2:red,#finish
-                 3:white#wall
+    matchColorDict={    
+                    spareNode:black, 
+                    startNode:green,#Start
+                    goalNode:red,#finish
+                    wallNode:white#wall
                 }
-                
 
+        
+
+    @classmethod
+    def matchColor(self,obj):
+        kind=type(obj)
+        color=colors.matchColorDict[kind]
+        return color
+    
+if __name__ == "__main__":
+    
+    e=goalNode(2,3)
+    print(colors.matchColor(e))
