@@ -10,22 +10,34 @@ class colors:
     red=(255,0,0)
     green=(0,255,0)
     blue=(0,0,255)
+    orange=(255,140,0)
+    yellow=(255,255,51)
 
-    matchColorDict={    
-                    spareNode:black, 
-                    startNode:green,#Start
+
+    matchColorDict={  
+                    startNode:blue,#Start
                     goalNode:red,#finish
                     wallNode:white#wall
                 }
-
+    spareNodedict={
+                    None:black,
+                    'current':yellow,
+                    'closed':orange,
+                    'open':green
+        }
         
 
     @classmethod
     def matchColor(self,obj):
         kind=type(obj)
-        color=colors.matchColorDict[kind]
-        return color
-    
+        if(kind!=spareNode):
+            color=colors.matchColorDict[kind]
+            return color
+        
+        return colors.spareNodedict[obj.status]
+
+
+
 if __name__ == "__main__":
     
     e=goalNode(2,3)
